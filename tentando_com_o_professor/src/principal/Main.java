@@ -12,10 +12,19 @@ public class Main {
 		
 		try {
 			AnalisadorLexico sc = new AnalisadorLexico("input.isi");
-			AnalisadorSintatico pa = new AnalisadorSintatico(sc);
+			AnalisadorSintatico parser = new AnalisadorSintatico(sc);
+			/*Token token = null;
 			
-					pa.Exprecao();
-					System.out.println("Sucesso na Compilacao");
+			do {
+				token = sc.nextToken();
+				if (token != null) 
+					System.out.println(token);
+				
+			}while (token != null);*/
+			
+			parser.Exprecao();
+			System.out.println("Compilado com sucesso!!");
+					
 		}catch(ExecaoLexica ex) {
 			System.out.println("Erro Lexico " + ex.getMessage());
 		}
