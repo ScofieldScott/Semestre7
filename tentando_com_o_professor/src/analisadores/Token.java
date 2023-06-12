@@ -59,7 +59,7 @@ public class Token {
 	}
 
 	public String toString() {
-		return "Token [tipo=" + tipo + ", text=" + text + "]";
+		return "Token [tipo= " + tipo + ", text= " + text + " ]";
 	}
 	
 	
