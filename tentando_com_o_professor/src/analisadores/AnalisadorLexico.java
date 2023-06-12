@@ -22,7 +22,7 @@ public class AnalisadorLexico {
 			System.out.println("-------------");
 			content = txtConteudo.toCharArray();
 			posicao = 0;
-			linha = 0;
+			linha = 1;
 			coluna = 0;
 		}
 		catch(Exception ex) {
@@ -57,6 +57,14 @@ public class AnalisadorLexico {
 				 else if (isSpace(posAtual)) {
 					 estado = 0;
 				 }
+				 else if (isPontuacao(posAtual)) {
+					 estado = 3;
+					 term += posAtual;
+				 }
+				 else if (isAtribuicao(posAtual)) {
+					 estado = 4;
+					 term += posAtual;
+				 }
 				 else if (isOperator(posAtual)){
 					 term += posAtual;
 					 token = new Token();
@@ -81,9 +89,9 @@ public class AnalisadorLexico {
 						back();
 					token = new Token();
 					token.setTipo(Token.TK_IDENTIFICADOR);
+					token.setText(term);
 					token.setLinha(linha);
 					token.setColuna(coluna - term.length());
-					token.setText(term);
 					return token;
 				}
 				else {
@@ -109,6 +117,42 @@ public class AnalisadorLexico {
 					throw new ExecaoLexica("Numero nao reconhecido");
 				}
 				break;
+			case 3:
+				if(isPontuacao(posAtual)) {
+					estado = 3;
+					term += posAtual;
+				}
+				else if (!isDigit(posAtual) || isItOff(posAtual)){
+					if (!isItOff(posAtual))
+						back();
+					token = new Token();
+					token.setTipo(Token.TK_PONTUACAO);
+					token.setText(term);
+					token.setLinha(linha);
+					token.setColuna(coluna - term.length());
+					return token;
+				} else {
+					throw new ExecaoLexica("Pontuacao nao reconhecida");
+				}
+				break;
+			case 4:
+				if(isAtribuicao(posAtual)) {
+					estado = 4;
+					term += posAtual;
+				}
+				else if (!isPontuacao(posAtual) || isItOff(posAtual)){
+					if (!isItOff(posAtual))
+						back();
+					token = new Token();
+					token.setTipo(Token.TK_ATRIBUICAO);
+					token.setText(term);
+					token.setLinha(linha);
+					token.setColuna(coluna - term.length());
+					return token;
+				} else {
+					throw new ExecaoLexica("Atribuicao nao reconhecida");
+				}
+				break;
 			}
 		}
 	}
@@ -122,7 +166,7 @@ public class AnalisadorLexico {
 	}
 	
 	private boolean isOperator(char c) {
-		return c == '>' || c == '<' || c == '=' || c == '!' || c == '+' || c == '-' || c == '*' || c == '/';
+		return c == '>' || c == '<' || c == '!' || c == '+' || c == '-' || c == '*' || c == '/';
 	}
 	
 	private boolean isSpace(char c) {
@@ -133,7 +177,18 @@ public class AnalisadorLexico {
 		return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 	} 
 	
+	private boolean isPontuacao (char c) {
+		return c == ';' || c == '.' || c == ',';
+	}
+	
+	private boolean isAtribuicao (char c) {
+		return c == '=';
+	}
+	
 	private char nextChar () {
+		if (isItOff()) {
+			return '\0';
+		}
 		return content[posicao++];
 	}
 	
