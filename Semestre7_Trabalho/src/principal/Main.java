@@ -1,25 +1,31 @@
 package principal;
 
-import java.util.List;
 import analisadores.ArvoreSintatica;
 import analisadores.AnalisadorSintatico;
 import analisadores.AnalisadorLexico;
 import analisadores.AnalisadorSemantico;
 import analisadores.Token;
-
+import execoes.ExecaoLexica;
 
 public class Main {
     public static void main(String[] args) {
-        String input = "int x = 10 + 5;";
         
         // Analisador Léxico
-        AnalisadorLexico lexer = new AnalisadorLexico(input);
-        List<Token> tokens = lexer.analisar();
-        System.out.println("Tokens:");
-        for (Token token : tokens) {
-            System.out.println(token);
+        try {
+        	AnalisadorLexico lexer = new AnalisadorLexico("input.isi");
+        	Token token = null;
+        	
+        	do {
+        		token = lexer.analisar();
+        		if(token != null)
+        			System.out.println(token);
+        	}while (token != null);
+        	
+        }catch (ExecaoLexica ex) {
+        	System.out.println("Erro Lexico " + ex.getMessage());
+        }catch (Exception ex) {
+        	System.out.println("Erro Generico");
         }
-        System.out.println();
 
         // Analisador Sintático
         AnalisadorSintatico parser = new AnalisadorSintatico(tokens);
