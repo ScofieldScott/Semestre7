@@ -3,23 +3,35 @@ package analisadores;
 import entities.enums.TipoToken;
 
 public class Token {
-    private TipoToken tipo;
-    private String valor;
+	private TipoToken tipo;
+    private String text;
 
     public Token(TipoToken tipo, String valor) {
         this.tipo = tipo;
-        this.valor = valor;
+        this.text = valor;
+    }
+    
+    public Token() {
+    	super();
     }
 
     public TipoToken getTipo() {
         return tipo;
     }
 
-    public String getValor() {
-        return valor;
+    public void setTipo(TipoToken tipo) {
+    	this.tipo = tipo;
     }
 
+    public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
     public String toString() {
-        return "[" + tipo + "-> " + valor + "]";
+        return "Token [Tipo= " + tipo + ", Texto= " + text + "]";
     }
 }
