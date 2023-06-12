@@ -5,8 +5,5 @@ public enum TipoToken {
     IDENTIFICADOR,
     OPERADOR,
     ATRIBUICAO,
-    PONTO_VIRGULA,
-    SOMA,
-    SUBTRACAO,
-    DIVISAO, MULTIPLICACAO;
+    PONTUACAO;
 }
