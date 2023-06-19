@@ -52,12 +52,5 @@ public class AnalisadorSintatico {
 			throw new ExecaoSintatica("Pontuacao inesperado, encontrado " + Token.TK_TEXT[token.getTipo()] + " (" + token.getText() + ") na LINHA "+ token.getLinha() + " e na COLUNA " + token.getColuna());
 		}
 	}
-
-	public void Atribuicao() {
-		token = al.nextToken();
-		if(token.getTipo() != Token.TK_ATRIBUICAO) {
-			throw new ExecaoSintatica("Atribuicao inesperado, encontrado " + Token.TK_TEXT[token.getTipo()] + " (" + token.getText() + ") na LINHA "+ token.getLinha() + " e na COLUNA " + token.getColuna());
-		}
-	}
 	
 }
